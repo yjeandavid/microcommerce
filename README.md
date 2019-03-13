@@ -18,3 +18,4 @@ Projet d'apprentissage Micro Commerce
   - Spring Web & Web MVC 5.1.5
   - Swagger2 2.9.2
   - Hibernate 5.3.7
+  - WebFlux 2.1.3
