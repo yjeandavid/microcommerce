@@ -10,11 +10,5 @@ import com.ecommerce.microcommerce.model.Product;
 @Repository
 public interface ProductDao extends JpaRepository<Product, Integer> {
 
-	List<Product> findAll();
-
 	List<Product> findAllByOrderByNameAsc();
-
-	Product findById(int id);
-
-	Product save(Product product);
 }
