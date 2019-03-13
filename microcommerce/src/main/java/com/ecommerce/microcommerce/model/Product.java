@@ -7,10 +7,7 @@ import javax.persistence.Id;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
-
 @Entity
-@JsonFilter("monFiltreDynamique")
 public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
