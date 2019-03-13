@@ -1,0 +1,8 @@
+  <td>{{ id }}</td>
+  <td>{{ name }}</td>
+  <td>{{ price }}</td>
+  <td *ngIf="isAuth">{{ purchasePrice }}</td>
+  <td *ngIf="isAuth">
+    <button class="btn btn-secondary" (click)="onEdit(id)">Éditer</button>
+    <button class="btn btn-secondary" (click)="onDelete(id)">Supprimer</button>
+  </td>

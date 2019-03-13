@@ -1,0 +1,26 @@
+<br>
+<h2>Produits disponibles</h2>
+<button class="btn btn-primary" *ngIf="isAuth" (click)="onAddProduct()">Ajouter un produit</button>
+<br>
+<br>
+<table class="table table-striped table-hover">
+  <thead>
+    <th>N° Produit</th>
+    <th>Nom produit</th>
+    <th>Prix</th>
+    <th *ngIf="isAuth">Prix d'achat</th>
+    <th *ngIf="isAuth">Actions</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products;">
+      <td>{{ product.id }}</td>
+      <td>{{ product.name }}</td>
+      <td>{{ product.price }}</td>
+      <td *ngIf="isAuth">{{ product.purchasePrice }}</td>
+      <td *ngIf="isAuth">
+        <button class="btn btn-secondary" (click)="onEditProduct(product.id)">Éditer</button>&nbsp;
+        <button class="btn btn-danger" (click)="onDeleteProduct(product)">Supprimer</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
