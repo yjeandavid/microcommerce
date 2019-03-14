@@ -1,14 +1,9 @@
-FROM maven:3.6.0-jdk-8
+FROM java:8
 
 MAINTAINER Claude-Clement Yapo (yjeandavid@hotmail.com)
 
-COPY . /tmp
-
-RUN cd /tmp && mvn package
-
-COPY /target/microcommerceapi-1.0.0-SNAPSHOT.jar ../var/microcommerceapi/microcommerceapi.jar
-
-WORKDIR ../var/microcommerceapi
+COPY	./target/microcommerceapi-1.0.0-SNAPSHOT.jar /var/microcommerceapi/microcommerceapi.jar
+WORKDIR /var/microcommerceapi
 
 #executer une commande dans le container
 #RUN bash -c 'ls /var/microcommerceapi'
