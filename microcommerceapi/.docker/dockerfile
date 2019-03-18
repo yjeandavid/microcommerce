@@ -9,9 +9,6 @@ RUN cd /tmp && mvn package && mkdir ../var/microcommerceapi && cd target \
 	&& mkdir ../../home/Documents && mkdir ../../home/Documents/projet \
 	&& mkdir ../../home/Documents/projet/microcommerce && mkdir ../../home/Documents/projet/microcommerce/microcommercedb
 	
-
-#COPY /target/microcommerceapi-1.0.0-SNAPSHOT.jar ../var/microcommerceapi/microcommerceapi.jar
-
 WORKDIR ../var/microcommerceapi
 
 #executer une commande dans le container
