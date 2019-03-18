@@ -3,6 +3,12 @@
 <button class="btn btn-primary" *ngIf="isAuth" (click)="onAddProduct()">Ajouter un produit</button>
 <br>
 <br>
+<div class="btn-group float-right">
+<p class="w-100">Nbre éléments par page:</p>&nbsp;<select class="form-control w-50 align-middle" (change)="onChangeItemsPerPage($event.target.value)">
+    <option *ngFor="let option of possiblesItemsPerPage" value="{{ option }}" [selected]="option === stringItemsPerPage">{{ option }}</option>
+</select>&nbsp;
+<pagination *ngIf="itemsPerPage < totalProducts" [totalItems]="totalProducts" [(ngModel)]="currentPage" [itemsPerPage]="itemsPerPage"></pagination>
+</div>
 <table class="table table-striped table-hover">
   <thead>
     <th>N° Produit</th>
@@ -12,11 +18,11 @@
     <th *ngIf="isAuth">Actions</th>
   </thead>
   <tbody>
-    <tr *ngFor="let product of products;">
+    <tr *ngFor="let product of products | slice: (currentPage-1) * itemsPerPage : (currentPage-1) * itemsPerPage + itemsPerPage">
       <td>{{ product.id }}</td>
       <td>{{ product.name }}</td>
-      <td>{{ product.price }}</td>
-      <td *ngIf="isAuth">{{ product.purchasePrice }}</td>
+      <td>{{ product.price | currency:'CAD':'symbol':'4.2-2':'fr-CA' }}</td>
+      <td *ngIf="isAuth">{{ product.purchasePrice | currency:'CAD':'symbol':'4.2-2':'fr-CA' }}</td>
       <td *ngIf="isAuth">
         <button class="btn btn-secondary" (click)="onEditProduct(product.id)">Éditer</button>&nbsp;
         <button class="btn btn-danger" (click)="onDeleteProduct(product)">Supprimer</button>
