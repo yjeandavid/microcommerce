@@ -1,4 +1,4 @@
-# microcommerce
+# Microcommerce
 Projet d'apprentissage Micro Commerce
 
 # Micro commerce API
@@ -19,3 +19,4 @@ Projet d'apprentissage Micro Commerce
   - Swagger2 2.9.2
   - Hibernate 5.3.7
   - WebFlux 2.1.3
+  - Docker
