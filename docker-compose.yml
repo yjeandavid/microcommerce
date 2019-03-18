@@ -1,0 +1,29 @@
+version: "3.2"
+services:
+    microcommerceapi:
+        container_name: microcommerceapi
+        image: microcommerceapi
+        build:
+            context: microcommerceapi
+            dockerfile: .docker/dockerfile
+        volumes:
+            - ./microcommercedb:/root/Documents/projet/microcommerce/microcommercedb
+        ports:
+            - "9090:9090"
+        networks:
+            - microcommerceapp-network
+            
+    microcommerceui:
+        container_name: microcommerceui
+        image: microcommerceui
+        build:
+            context: microcommerceui
+            dockerfile: .docker/dockerfile
+        ports:
+            - "4200:4200"
+        networks:
+            - microcommerceapp-network
+
+networks:
+    microcommerceapp-network:
+        driver: bridge
