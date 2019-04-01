@@ -22,9 +22,9 @@ public class MicrocommerceApplication {
 		return (String[] args) -> {
 			List<Product> products = productService.findAll().collectList().block();
 			if (products == null || products.isEmpty()) {
-				productService.save(new Product(1, "Ordinateur Portable", 350, 120));
-				productService.save(new Product(2, "Aspirateur Robot", 500, 200));
-				productService.save(new Product(3, "Table de ping pong", 750, 400));
+				productService.save(new Product(null, "Ordinateur Portable", 350, 120), false);
+				productService.save(new Product(null, "Aspirateur Robot", 500, 200), false);
+				productService.save(new Product(null, "Table de ping pong", 750, 400), false);
 				productService.findAll().collectList().block().forEach(product -> System.out.println(product));
 			}
 		};

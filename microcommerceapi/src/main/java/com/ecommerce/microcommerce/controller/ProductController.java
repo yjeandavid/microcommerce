@@ -47,7 +47,7 @@ public class ProductController {
 	@ApiOperation(value = "Récupère un produit à condition que celui-ci soit dans les stocks.")
 	@GetMapping("{id}")
 	@CrossOrigin
-	public Mono<ResponseEntity<Product>> getProduct(@PathVariable int id) {
+	public Mono<ResponseEntity<Product>> getProduct(@PathVariable long id) {
 		return productService.findById(id).map(product -> ResponseEntity.ok(product))
 				.defaultIfEmpty(ResponseEntity.notFound().build());
 	}
@@ -55,12 +55,12 @@ public class ProductController {
 	@ApiOperation(value = "Met à jour l'information d'un produit (s'il existe).")
 	@PutMapping("{id}")
 	@CrossOrigin
-	public Mono<ResponseEntity<Void>> updateProduct(@PathVariable int id, @RequestBody Product product) {
+	public Mono<ResponseEntity<Void>> updateProduct(@PathVariable long id, @RequestBody Product product) {
 		return productService.findById(id).flatMap(existingProduct -> {
 			existingProduct.setName(product.getName());
 			existingProduct.setPrice(product.getPrice());
 			existingProduct.setPurchasePrice(product.getPurchasePrice());
-			return productService.save(existingProduct);
+			return productService.save(existingProduct, true);
 		}).map(updatedProduct -> ResponseEntity.noContent().<Void>build())
 				.defaultIfEmpty(ResponseEntity.notFound().build());
 	}
@@ -72,7 +72,7 @@ public class ProductController {
 		if (product.getPrice() <= 0) {
 			throw new ProduitGratuitException("The price can't be lessier than or equal to 0.");
 		}
-		return productService.save(product).map(productAdded -> {
+		return productService.save(product, true).map(productAdded -> {
 			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 					.buildAndExpand(product.getId()).toUri();
 			return ResponseEntity.created(location).<Void>build();
@@ -82,7 +82,7 @@ public class ProductController {
 	@ApiOperation(value = "Supprime un produit existant.")
 	@DeleteMapping("{id}")
 	@CrossOrigin
-	public Mono<ResponseEntity<Void>> deleteProduct(@PathVariable int id) {
+	public Mono<ResponseEntity<Void>> deleteProduct(@PathVariable long id) {
 		return productService.findById(id)
 				.flatMap(existingProduct -> productService.delete(existingProduct)
 						.then(Mono.just(ResponseEntity.noContent().<Void>build())))

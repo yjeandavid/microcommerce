@@ -10,9 +10,9 @@ public interface ProductService {
 
 	Flux<Product> findAllByOrderByNameAsc();
 
-	Mono<Product> findById(int id);
+	Mono<Product> findById(long id);
 
-	Mono<Product> save(Product product);
+	Mono<Product> save(Product product, boolean sendEvent);
 
 	Mono<Void> delete(Product product);
 }

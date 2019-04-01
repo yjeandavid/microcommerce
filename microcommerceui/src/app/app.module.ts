@@ -21,6 +21,8 @@ import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { ProductsService } from './services/products.service';
 import { SignoutComponent } from './auth/signout/signout.component';
+import { InjectableRxStompConfig, RxStompService, rxStompServiceFactory } from '@stomp/ng2-stompjs';
+import { myStompConfig } from './my-stomp-config';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,16 @@ import { SignoutComponent } from './auth/signout/signout.component';
   providers: [
     AuthService,
     AuthGuardService,
-    ProductsService
+    ProductsService,
+    {
+        provide: InjectableRxStompConfig,
+        useValue: myStompConfig
+    },
+    {
+        provide: RxStompService,
+        useFactory: rxStompServiceFactory,
+        deps: [ InjectableRxStompConfig ]
+    }
   ],
   bootstrap: [AppComponent]
 })

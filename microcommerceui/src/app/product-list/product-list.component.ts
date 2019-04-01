@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { ProductsService } from '../services/products.service';
 import { Router } from '@angular/router';
+import { RxStompService } from '@stomp/ng2-stompjs';
+import { Message } from '@stomp/stompjs';
 
 @Component({
   selector: 'app-product-list',
@@ -16,6 +18,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   isAuthSubscription: Subscription;
 
   products: Product[];
+  alertsSubscription: Subscription;
 
   currentPage = 1;
   totalProducts: number;
@@ -24,7 +27,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   possiblesItemsPerPage = ["2", "5", "10", "25", "50", "100", "All"];
 
-  constructor(private authService: AuthService, private productsService: ProductsService, private router: Router) {
+  constructor(private authService: AuthService, private productsService: ProductsService, private router: Router, 
+              private rxStompService: RxStompService) {
     this.fetchProducts();
   }
 
@@ -45,10 +49,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
       }
     );
     this.authService.emitIsAuthSubject();
+    this.alertsSubscription = this.rxStompService.watch('/exchange/alerts').subscribe((message: Message) => {
+        console.log('Message reçu %s', message.body);
+    });
   }
 
   ngOnDestroy() {
     this.isAuthSubscription.unsubscribe();
+    this.alertsSubscription.unsubscribe();
   }
 
   onAddProduct() {

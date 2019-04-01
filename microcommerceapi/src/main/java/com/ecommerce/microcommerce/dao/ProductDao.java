@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.ecommerce.microcommerce.model.Product;
 
 @Repository
-public interface ProductDao extends JpaRepository<Product, Integer> {
+public interface ProductDao extends JpaRepository<Product, Long> {
 
 	List<Product> findAllByOrderByNameAsc();
 }

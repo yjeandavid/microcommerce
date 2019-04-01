@@ -4,14 +4,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 import org.hibernate.validator.constraints.Length;
 
 @Entity
 public class Product {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqProductId")
+	@SequenceGenerator(name = "seqProductId", sequenceName = "productIdSequence", initialValue = 1, allocationSize = 1)
+	private Long id;
 	@Length(min=3, max=20)
 	private String name;
 
@@ -22,7 +24,7 @@ public class Product {
 	public Product() {
 	}
 	
-	public Product(int id, String name, int price, int purchasePrice) {
+	public Product(Long id, String name, int price, int purchasePrice) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -30,11 +32,11 @@ public class Product {
 		this.purchasePrice = purchasePrice;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
