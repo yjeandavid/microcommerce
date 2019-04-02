@@ -20,3 +20,4 @@ Projet d'apprentissage Micro Commerce
   - Hibernate 5.3.7
   - WebFlux 2.1.3
   - Docker
+  - RabbitMQ
