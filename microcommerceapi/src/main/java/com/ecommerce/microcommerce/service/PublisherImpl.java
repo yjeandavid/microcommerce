@@ -18,14 +18,15 @@ public class PublisherImpl implements Publisher {
 
 	private static final String EXCHANGE_NAME = "alerts";
 
-	@Value("${rabbitmq.hostname}")
 	private String hostRabbitMQName;
 
 	private ConnectionFactory factory;
 	
-	public PublisherImpl() throws IOException, TimeoutException {
+	public PublisherImpl(@Value("${rabbitmq.hostname}") String hostRabbitMQName) throws IOException, TimeoutException {
+		this.hostRabbitMQName = hostRabbitMQName;
+
 		factory = new ConnectionFactory();
-		factory.setHost(hostRabbitMQName);
+		factory.setHost(this.hostRabbitMQName);
 		try (Connection connection = factory.newConnection(); Channel channel = connection.createChannel()) {
 			channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
 		} catch (IOException | TimeoutException ex) {
