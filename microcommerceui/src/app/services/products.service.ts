@@ -6,7 +6,6 @@ import { HttpClient } from '@angular/common/http';
     providedIn: 'root'
 })
 export class ProductsService {
-    products: Product[];
 
     constructor(private httpClient: HttpClient) { }
 

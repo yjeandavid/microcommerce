@@ -1,0 +1,53 @@
+version: "3.2"
+services:
+    rabbitmq:
+        container_name: rabbitmq
+        image: rabbitmq_stomp
+        build:
+            context: rabbitmq
+            dockerfile: ./dockerfile
+        ports:
+            - "4369:4369"
+            - "5671:5671"
+            - "5672:5672"
+            - "25672:25672"
+            - "15672:15672"
+            - "15674:15674"
+            - "61613:61613"
+        networks:
+            - microcommerceapp-network
+
+    microcommerceapi:
+        container_name: microcommerceapi
+        image: microcommerceapi
+        build:
+            context: microcommerceapi
+            dockerfile: .docker/dockerfile
+        volumes:
+            - ./microcommercedb:/root/Documents/projet/microcommerce/microcommercedb
+        ports:
+            - "9090:9090"
+        networks:
+            - microcommerceapp-network
+        depends_on:
+            - "rabbitmq"
+        command: ["/var/microcommerceapi/wait-for.sh", "rabbitmq:15672", "-t", "30", "--", "java", "-jar", "/var/microcommerceapi/microcommerceapi.jar", "--rabbitmq.hostname=rabbitmq"]
+            
+    microcommerceui:
+        container_name: microcommerceui
+        image: microcommerceui
+        build:
+            context: microcommerceui
+            dockerfile: .docker/dockerfile
+        ports:
+            - "4200:4200"
+        networks:
+            - microcommerceapp-network
+        depends_on:
+            - "rabbitmq"
+            - "microcommerceapi"
+
+networks:
+    microcommerceapp-network:
+        driver: bridge
+        

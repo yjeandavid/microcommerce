@@ -1,0 +1,22 @@
+FROM node:10.16.3
+
+MAINTAINER Claude-Clement Yapo (yjeandavid@hotmail.com)
+
+COPY . /var/microcommerceui
+
+WORKDIR /var/microcommerceui
+
+#executer une commande dans le container
+#RUN bash -c 'ls /var/microcommerceui'
+
+RUN bash -c 'npm install'
+
+RUN bash -c 'npm rebuild node-sass'
+
+RUN bash -c 'npm install -g @angular/cli'
+
+#RUN bash -c 'npm install --save-dev @angular-devkit/build-angular'
+
+EXPOSE 4200
+
+ENTRYPOINT ["ng", "serve", "--host", "0.0.0.0"]
